@@ -1,0 +1,65 @@
+buildscript {
+  dependencies {
+    classpath dep.apolloPlugin
+  }
+}
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'com.apollographql.android'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion androidConfig.compileSdkVersion
+  buildToolsVersion androidConfig.buildToolsVersion
+
+  defaultConfig {
+    applicationId "com.slelyuk.android.gqlviewer"
+    minSdkVersion androidConfig.minSdkVersion
+    targetSdkVersion androidConfig.targetSdkVersion
+
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+apollo {
+  schemaFilePath = "/app/src/main/graphql/com/slelyuk/android/gqlviewer/schema.json"
+  outputPackageName = "com.slelyuk.android.gqlviewer"
+  customTypeMapping['DateTime'] = "java.util.Date"
+}
+
+kotlin {
+  experimental {
+    coroutines "enable"
+  }
+}
+
+dependencies {
+  // GraphQL
+  implementation dep.apolloRuntime
+  implementation dep.apolloAndroidSupport
+  // Kotlin
+  implementation dep.kotlinStdLib
+  implementation dep.coroutineCore
+  implementation dep.coroutineAndroid
+  // Support
+  implementation dep.appcompat
+  implementation dep.recyclerView
+  implementation dep.designSupport
+  // Networking
+  implementation dep.okhttpLoggingInterceptor
+  // Tests
+  testImplementation dep.junit
+  androidTestImplementation dep.testRunner
+  androidTestImplementation dep.espressoCore
+}

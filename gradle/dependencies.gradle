@@ -1,0 +1,43 @@
+def versions = [
+    apolloVersion                : '0.4.4',
+    cacheVersion                 : '2.0.2',
+    okHttpVersion                : '3.8.1',
+    kotlinVersion                : '1.2.31',
+    supportLibVersion            : '26.1.0',
+    mockito                      : '1.9.5',
+    testRunner                   : '0.5',
+    espressoIdlingResourceVersion: '2.2.2',
+    espressoCoreVersion          : '3.0.1',
+    bintray                      : '1.2',
+    coroutineVersion             : '0.22.1'
+]
+
+ext.isCi = "true" == System.getenv('CI')
+
+ext.androidConfig = [
+    compileSdkVersion: 26,
+    buildToolsVersion: '27.0.3',
+    minSdkVersion    : 22,
+    targetSdkVersion : 26
+]
+
+ext.dep = [
+    androidPlugin           : 'com.android.tools.build:gradle:3.1.0',
+    apolloPlugin            : "com.apollographql.apollo:apollo-gradle-plugin:$versions.apolloVersion",
+    apolloAndroidSupport    : "com.apollographql.apollo:apollo-android-support:$versions.apolloVersion",
+    apolloRuntime           : "com.apollographql.apollo:apollo-runtime:$versions.apolloVersion",
+    recyclerView            : "com.android.support:recyclerview-v7:$versions.supportLibVersion",
+    appcompat               : "com.android.support:appcompat-v7:$versions.supportLibVersion",
+    designSupport           : "com.android.support:design:$versions.supportLibVersion",
+    kotlinStdLib            : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlinVersion",
+    kotlinGradlePlugin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlinVersion",
+    coroutineCore           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutineVersion",
+    coroutineAndroid        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutineVersion",
+    junit                   : 'junit:junit:4.12',
+    okhttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okHttpVersion",
+    okHttp                  : "com.squareup.okhttp3:okhttp:$versions.okHttpVersion",
+    okhttpTestSupport       : "com.squareup.okhttp3:okhttp-testing-support:$versions.okHttpVersion",
+    testRunner              : "com.android.support.test:runner:$versions.testRunner",
+    espressoCore            : "com.android.support.test.espresso:espresso-core:$versions.espressoCoreVersion",
+    bintrayGradlePlugin     : "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintray",
+]

@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">github-gql-viewer</string>
+  <string name="message_no_repos">No repos</string>
+  <string name="message_network_error">Loading error</string>
+</resources>
