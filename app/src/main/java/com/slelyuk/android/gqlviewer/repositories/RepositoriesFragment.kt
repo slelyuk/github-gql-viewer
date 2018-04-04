@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.slelyuk.android.gqlviewer.R
 import com.slelyuk.android.gqlviewer.R.string
+import com.slelyuk.android.gqlviewer.data.Repo
 import com.slelyuk.android.gqlviewer.fragment.RepositoryItem
 import com.slelyuk.android.gqlviewer.repositories.RepositoriesFragment.RepositoriesAdapter.RepoViewHolder
 import com.slelyuk.android.gqlviewer.util.showSnackBar
@@ -39,7 +40,7 @@ class RepositoriesFragment : Fragment(), RepositoriesContract.View {
    * Listener for clicks on repositories in the ListView.
    */
   private var itemListener: RepositoryItemListener = object : RepositoryItemListener {
-    override fun onRepositoryClick(repo: RepositoryItem) {
+    override fun onRepositoryClick(repo: Repo) {
       presenter.openRepositoryDetails(repo)
     }
   }
@@ -78,7 +79,7 @@ class RepositoriesFragment : Fragment(), RepositoriesContract.View {
     with(refreshLayout) { isRefreshing = active }
   }
 
-  override fun showRepositories(repos: List<RepositoryItem>) {
+  override fun showRepositories(repos: List<Repo>) {
     listAdapter.repositories = repos
 
     repositoriesListView.visibility = View.VISIBLE
@@ -102,11 +103,11 @@ class RepositoriesFragment : Fragment(), RepositoriesContract.View {
     view?.showSnackBar(message, Snackbar.LENGTH_LONG)
   }
 
-  class RepositoriesAdapter(repositories: List<RepositoryItem>,
+  class RepositoriesAdapter(repositories: List<Repo>,
       private val itemListener: RepositoryItemListener)
     : Adapter<RepoViewHolder>() {
 
-    var repositories: List<RepositoryItem> = repositories
+    var repositories: List<Repo> = repositories
       set(repos) {
         field = repos
         notifyDataSetChanged()
@@ -123,10 +124,10 @@ class RepositoriesFragment : Fragment(), RepositoriesContract.View {
 
     override fun onBindViewHolder(holder: RepoViewHolder?, position: Int) {
       val repo = getItem(position)
-      holder?.title?.text = repo.nameWithOwner()
-      holder?.description?.text = repo.description()
-      holder?.stars?.text = "${repo.stargazers().totalCount()}"
-      holder?.forks?.text = "${repo.forkCount()}"
+      holder?.title?.text = repo.name
+      holder?.description?.text = repo.description
+      holder?.stars?.text = "${repo.starsCount}"
+      holder?.forks?.text = "${repo.forksCount}"
 
       holder?.itemView?.setOnClickListener { itemListener.onRepositoryClick(repo) }
     }
@@ -140,7 +141,7 @@ class RepositoriesFragment : Fragment(), RepositoriesContract.View {
   }
 
   interface RepositoryItemListener {
-    fun onRepositoryClick(repo: RepositoryItem)
+    fun onRepositoryClick(repo: Repo)
   }
 
   companion object {

@@ -1,8 +1,8 @@
 package com.slelyuk.android.gqlviewer.repositories
 
-import com.slelyuk.android.gqlviewer.data.source.Result
+import com.slelyuk.android.gqlviewer.data.Repo
 import com.slelyuk.android.gqlviewer.data.source.RepositoriesDataSourceImpl
-import com.slelyuk.android.gqlviewer.fragment.RepositoryItem
+import com.slelyuk.android.gqlviewer.data.source.Result
 import com.slelyuk.android.gqlviewer.util.launchSilent
 import kotlinx.coroutines.experimental.android.UI
 import kotlin.coroutines.experimental.CoroutineContext
@@ -69,7 +69,7 @@ class RepositoriesPresenter(private val dataSource: RepositoriesDataSourceImpl,
     }
   }
 
-  private fun processRepositories(repos: List<RepositoryItem>) {
+  private fun processRepositories(repos: List<Repo>) {
     if (repos.isEmpty()) {
       // Show a message indicating there are no repositories
       processEmptyRepositories()
@@ -83,7 +83,7 @@ class RepositoriesPresenter(private val dataSource: RepositoriesDataSourceImpl,
     repositoriesView.showNoRepositories()
   }
 
-  override fun openRepositoryDetails(repo: RepositoryItem) {
+  override fun openRepositoryDetails(repo: Repo) {
     // TODO
   }
 }

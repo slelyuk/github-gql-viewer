@@ -2,18 +2,18 @@ package com.slelyuk.android.gqlviewer.data.source.remote
 
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.CustomTypeAdapter
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
 import com.slelyuk.android.gqlviewer.PublicRepositoriesQuery
 import com.slelyuk.android.gqlviewer.PublicRepositoriesQuery.Data
-import com.slelyuk.android.gqlviewer.data.source.Result
+import com.slelyuk.android.gqlviewer.data.Repo
 import com.slelyuk.android.gqlviewer.data.source.RepositoriesDataSource
-import com.slelyuk.android.gqlviewer.fragment.RepositoryItem
-import okhttp3.OkHttpClient
-import com.apollographql.apollo.CustomTypeAdapter
-import com.slelyuk.android.gqlviewer.PublicRepositoriesQuery.Edge
+import com.slelyuk.android.gqlviewer.data.source.Result
+import com.slelyuk.android.gqlviewer.data.toRepos
 import com.slelyuk.android.gqlviewer.type.CustomType
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
 import java.text.ParseException
@@ -30,28 +30,25 @@ class RepositoriesRemoteDataSource private constructor() : RepositoriesDataSourc
 
   private val apolloClient: ApolloClient = setupApollo()
 
-  override suspend fun getRepositories(): Result<List<RepositoryItem>> {
-    val repos = ArrayList<RepositoryItem>()
-    lateinit var result: Continuation<Result<List<RepositoryItem>>>
+  override suspend fun getRepositories(): Result<List<Repo>> {
+    lateinit var result: Continuation<Result<List<Repo>>>
 
-      apolloClient.query(
-          PublicRepositoriesQuery.builder()
-              .build()
-      ).enqueue(object : ApolloCall.Callback<PublicRepositoriesQuery.Data>() {
-        override fun onResponse(response: Response<Data>) {
-          for (e:Edge in response.data()?.search()?.edges()!!) {
-            repos.add(e.node()?.fragments()?.repositoryItem()!!)
-          }
-          result.resume(Result.Success(repos))
-        }
+    apolloClient.query(
+        PublicRepositoriesQuery.builder()
+            .build()
+    ).enqueue(object : ApolloCall.Callback<PublicRepositoriesQuery.Data>() {
+      override fun onResponse(response: Response<Data>) {
+        val repos = response.data()!!.toRepos()
+        result.resume(Result.Success(repos))
+      }
 
-        override fun onFailure(e: ApolloException) {
-          e.printStackTrace()
-          result.resume(Result.Error(e))
-        }
+      override fun onFailure(e: ApolloException) {
+        e.printStackTrace()
+        result.resume(Result.Error(e))
+      }
     })
 
-    return suspendCoroutine {continuation -> result = continuation}
+    return suspendCoroutine { continuation -> result = continuation }
   }
 
   override suspend fun refreshRepositories() {

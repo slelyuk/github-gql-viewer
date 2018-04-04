@@ -1,9 +1,9 @@
 package com.slelyuk.android.gqlviewer.data.source.local
 
+import com.slelyuk.android.gqlviewer.data.Repo
 import com.slelyuk.android.gqlviewer.data.source.LocalDataNotFoundException
 import com.slelyuk.android.gqlviewer.data.source.RepositoriesDataSource
 import com.slelyuk.android.gqlviewer.data.source.Result
-import com.slelyuk.android.gqlviewer.fragment.RepositoryItem
 import com.slelyuk.android.gqlviewer.util.AppExecutors
 import kotlinx.coroutines.experimental.withContext
 
@@ -14,7 +14,7 @@ class RepositoriesLocalDataSource private constructor(
     private val appExecutors: AppExecutors
 ) : RepositoriesDataSource {
 
-  override suspend fun getRepositories(): Result<List<RepositoryItem>> = withContext(
+  override suspend fun getRepositories(): Result<List<Repo>> = withContext(
       appExecutors.ioContext) {
     // TODO
     return@withContext Result.Error(LocalDataNotFoundException())

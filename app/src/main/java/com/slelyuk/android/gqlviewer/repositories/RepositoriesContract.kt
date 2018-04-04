@@ -2,7 +2,7 @@ package com.slelyuk.android.gqlviewer.repositories
 
 import com.slelyuk.android.gqlviewer.BasePresenter
 import com.slelyuk.android.gqlviewer.BaseView
-import com.slelyuk.android.gqlviewer.fragment.RepositoryItem
+import com.slelyuk.android.gqlviewer.data.Repo
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -15,7 +15,7 @@ interface RepositoriesContract {
 
     fun setLoadingIndicator(active: Boolean)
 
-    fun showRepositories(repos: List<RepositoryItem>)
+    fun showRepositories(repos: List<Repo>)
 
     fun showLoadingRepositoriesError()
 
@@ -28,6 +28,6 @@ interface RepositoriesContract {
 
     fun loadRepositories(forceUpdate: Boolean)
 
-    fun openRepositoryDetails(repo: RepositoryItem)
+    fun openRepositoryDetails(repo: Repo)
   }
 }
