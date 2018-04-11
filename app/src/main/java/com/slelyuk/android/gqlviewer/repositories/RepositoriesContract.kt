@@ -20,6 +20,8 @@ interface RepositoriesContract {
     fun showLoadingRepositoriesError()
 
     fun showNoRepositories()
+
+    fun launchRepoCustomTab(url: String)
   }
 
   interface Presenter : BasePresenter {

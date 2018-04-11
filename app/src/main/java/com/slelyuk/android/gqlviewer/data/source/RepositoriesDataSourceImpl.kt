@@ -15,13 +15,13 @@ class RepositoriesDataSourceImpl(
   /**
    * This variable has public visibility so it can be accessed from tests.
    */
-  var cachedRepos: LinkedHashMap<String, Repo> = LinkedHashMap()
+  private var cachedRepos: LinkedHashMap<String, Repo> = LinkedHashMap()
 
   /**
    * Marks the cache as invalid, to force an update the next time data is requested. This variable
    * has package local visibility so it can be accessed from tests.
    */
-  var cacheIsDirty = false
+  private var cacheIsDirty = false
 
   /**
    * Gets repositories from cache, local data source (SQLite) or remote data source, whichever is

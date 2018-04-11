@@ -16,6 +16,7 @@ import com.slelyuk.android.gqlviewer.type.CustomType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
+import java.net.URI
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -52,7 +53,7 @@ class RepositoriesRemoteDataSource private constructor() : RepositoriesDataSourc
   }
 
   override suspend fun refreshRepositories() {
-    // Not required because the {@link TasksRepository} handles the logic of refreshing the
+    // Not required because the {@link RepositoriesDataSource} handles the logic of refreshing the
     // repos from all the available data sources.
   }
 
@@ -74,6 +75,17 @@ class RepositoriesRemoteDataSource private constructor() : RepositoriesDataSourc
         return dateFormat.format(value)
       }
     }
+
+    val uriTypeAdapter = object : CustomTypeAdapter<URI> {
+      override fun decode(value: String): URI {
+        return URI.create(value)
+      }
+
+      override fun encode(value: URI): String {
+        return value.toASCIIString()
+      }
+    }
+
     val okHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor { chain ->
           chain.proceed(chain.request().newBuilder().addHeader(
@@ -88,6 +100,7 @@ class RepositoriesRemoteDataSource private constructor() : RepositoriesDataSourc
         .serverUrl("https://api.github.com/graphql")
         .okHttpClient(okHttpClient)
         .addCustomTypeAdapter(CustomType.DATETIME, dateTypeAdapter)
+        .addCustomTypeAdapter(CustomType.URI, uriTypeAdapter)
         .subscriptionTransportFactory(
             WebSocketSubscriptionTransport.Factory(
                 "wss://api.github.com/subscriptions", okHttpClient))

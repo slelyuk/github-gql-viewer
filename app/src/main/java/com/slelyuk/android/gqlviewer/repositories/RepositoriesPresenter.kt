@@ -84,6 +84,6 @@ class RepositoriesPresenter(private val dataSource: RepositoriesDataSourceImpl,
   }
 
   override fun openRepositoryDetails(repo: Repo) {
-    // TODO
+    repositoriesView.launchRepoCustomTab(repo.url)
   }
 }

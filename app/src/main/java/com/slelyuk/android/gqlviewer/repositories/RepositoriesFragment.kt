@@ -1,7 +1,9 @@
 package com.slelyuk.android.gqlviewer.repositories
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -101,6 +103,14 @@ class RepositoriesFragment : Fragment(), RepositoriesContract.View {
 
   private fun showMessage(message: String) {
     view?.showSnackBar(message, Snackbar.LENGTH_LONG)
+  }
+
+  override fun launchRepoCustomTab(url: String) {
+    val customTabsIntent = CustomTabsIntent.Builder()
+        .addDefaultShareMenuItem()
+        .enableUrlBarHiding()
+        .build()
+    customTabsIntent.launchUrl(context, Uri.parse(url))
   }
 
   class RepositoriesAdapter(repositories: List<Repo>,
