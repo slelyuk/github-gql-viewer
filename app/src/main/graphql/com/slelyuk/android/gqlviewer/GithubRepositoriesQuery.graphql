@@ -1,5 +1,5 @@
-query PublicRepositoriesQuery {
-  search(query: "is:public", type: REPOSITORY, first: 50) {
+query PublicRepositoriesQuery($first: Int = 20, $after: String) {
+  search(query: "is:public", type: REPOSITORY, first: $first, after: $after) {
     repositoryCount
     pageInfo {
       endCursor
@@ -14,6 +14,8 @@ query PublicRepositoriesQuery {
 }
 
 fragment RepositoryItem on Repository {
+  id
+  url
   nameWithOwner
   description
   forkCount
