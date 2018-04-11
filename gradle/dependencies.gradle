@@ -15,20 +15,20 @@ def versions = [
 ext.isCi = "true" == System.getenv('CI')
 
 ext.androidConfig = [
-    compileSdkVersion: 26,
-    buildToolsVersion: '27.0.3',
+    compileSdkVersion: 27,
     minSdkVersion    : 22,
-    targetSdkVersion : 26
+    targetSdkVersion : 27
 ]
 
 ext.dep = [
-    androidPlugin           : 'com.android.tools.build:gradle:3.1.0',
+    androidPlugin           : 'com.android.tools.build:gradle:3.1.1',
     apolloPlugin            : "com.apollographql.apollo:apollo-gradle-plugin:$versions.apolloVersion",
     apolloAndroidSupport    : "com.apollographql.apollo:apollo-android-support:$versions.apolloVersion",
     apolloRuntime           : "com.apollographql.apollo:apollo-runtime:$versions.apolloVersion",
     recyclerView            : "com.android.support:recyclerview-v7:$versions.supportLibVersion",
     appcompat               : "com.android.support:appcompat-v7:$versions.supportLibVersion",
     designSupport           : "com.android.support:design:$versions.supportLibVersion",
+    customTabsSupport       : "com.android.support:customtabs:$versions.supportLibVersion",
     kotlinStdLib            : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlinVersion",
     kotlinGradlePlugin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlinVersion",
     coroutineCore           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutineVersion",

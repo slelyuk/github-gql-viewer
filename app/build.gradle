@@ -13,7 +13,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
   compileSdkVersion androidConfig.compileSdkVersion
-  buildToolsVersion androidConfig.buildToolsVersion
 
   defaultConfig {
     applicationId "com.slelyuk.android.gqlviewer"
@@ -56,6 +55,7 @@ dependencies {
   implementation dep.appcompat
   implementation dep.recyclerView
   implementation dep.designSupport
+  implementation dep.customTabsSupport
   // Networking
   implementation dep.okhttpLoggingInterceptor
   // Tests
